@@ -1,0 +1,55 @@
+---
+- name: Create AWS resources
+  hosts: localhost
+  gather_facts: False
+  vars:
+        key_name: "AWSkeypair"
+        instance_type: m1.small
+        security_group: default
+        image: ami-95e33ce6
+        region: eu-west-1
+        instance_name: ansible
+        zone: demosiili.com
+  tasks:
+    - name: Start AWS EC2 instance
+      ec2:
+        key_name: "{{ key_name }}"
+        group: "{{ security_group }}"
+        instance_type: "{{ instance_type }}"
+        image: "{{ image }}"
+        wait: true
+        region: "{{ region }}"
+        instance_tags:
+          Name: "{{ instance_name }}"
+        vpc_subnet_id: subnet-ed98ca88
+        assign_public_ip: yes
+        count: 1
+        monitoring: yes
+      register: ec2
+
+    - name: Add hosts to group
+      add_host: hostname={{ item.public_ip }} groupname=webserver
+      with_items: ec2.instances
+
+    - name: Add Route53 DNS record for this instance (overwrite if needed)
+      route53:
+         command: create
+         zone: "{{ zone }}"
+         record: "{{ instance_name }}.{{ zone }}"
+         type: A
+         ttl: 3600
+         value: "{{ item.public_ip }}"
+         overwrite: yes
+      with_items: ec2.instances
+
+    - name: Wait until SSH is available
+      wait_for: host={{ item.public_dns_name }} port=22 delay=60 timeout=320 state=started
+      with_items: ec2.instances
+
+- name: Configure EC2 instances
+  hosts: webserver
+  sudo: True
+  user: ec2-user
+  gather_facts: True
+  roles:
+    - apache

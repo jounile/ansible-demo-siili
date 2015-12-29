@@ -1,0 +1,18 @@
+---
+# file: roles/apache/tasks/main.yml
+
+- name: Install httpd package
+  yum: name=httpd state=latest
+  sudo: yes
+
+- name: Copy welcome page
+  template: src=./templates/index.html dest=/var/www/html owner=apache group=apache mode=0644
+  sudo: yes
+
+- name: Copy picture
+  copy: src=./templates/siili_cartoon.png dest=/var/www/html owner=apache group=apache mode=0644
+  sudo: yes
+
+- name: Starting http service
+  service: name=httpd state=started
+  sudo: yes

@@ -1,2 +1,5 @@
-# ansible-demo-siili
-Ansible demo
+# Ansible demo
+
+Run: 
+$ ansible-playbook -i inventory site.yml -v
+
