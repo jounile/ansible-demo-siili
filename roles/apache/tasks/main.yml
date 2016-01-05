@@ -5,13 +5,26 @@
   yum: name=httpd state=latest
   sudo: yes
 
-- name: Copy welcome page
-  template: src=./templates/index.html dest=/var/www/html owner=apache group=apache mode=0644
+- name: Install Git
+  yum: name=git state=latest
   sudo: yes
 
-- name: Copy picture
-  copy: src=./templates/siili_cartoon.png dest=/var/www/html owner=apache group=apache mode=0644
-  sudo: yes
+- name: create known_hosts file
+  file: path=/home/ec2-user/.ssh/known_hosts state=touch mode=0644
+
+- name: ensure github.com is a known host
+  known_hosts: path='/home/ec2-user/.ssh/known_hosts'
+               name='github.com'
+               key="{{ lookup('pipe', 'ssh-keyscan -t rsa github.com') }}"
+
+- name: Clone Git repo of demo website
+  git: >
+    repo=https://github.com/jounile/ansible-demo-siili-site.git
+    version=master
+    dest=/var/www/html
+    accept_hostkey=True
+
+#    repo=git@github.com:jounile/ansible-demo-siili-site.git
 
 - name: Starting http service
   service: name=httpd state=started
