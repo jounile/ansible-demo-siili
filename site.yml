@@ -5,7 +5,7 @@
   serial: 1
   tags: provision
   vars:
-        key_name: "AWSkeypair"
+        key_name: "AWSKeypair2"
         instance_type: m1.small
         security_group: default
         image: ami-95e33ce6
