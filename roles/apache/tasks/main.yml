@@ -14,17 +14,15 @@
 
 - name: ensure github.com is a known host
   known_hosts: path='/home/ec2-user/.ssh/known_hosts'
-               name='github.com'
-               key="{{ lookup('pipe', 'ssh-keyscan -t rsa github.com') }}"
+           name='github.com'
+           key="{{ lookup('pipe', 'ssh-keyscan -t rsa github.com') }}"
 
 - name: Clone Git repo of demo website
   git: >
-    repo=https://github.com/jounile/ansible-demo-siili-site.git
+    repo="{{ git_repo }}"
     version=master
     dest=/var/www/html
     accept_hostkey=True
-
-#    repo=git@github.com:jounile/ansible-demo-siili-site.git
 
 - name: Starting http service
   service: name=httpd state=started

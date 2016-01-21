@@ -1,0 +1,4 @@
+---
+# file: roles/apache/vars/main.yml
+
+git_repo: 'https://github.com/jounile/ansible-demo-siili-site.git'
