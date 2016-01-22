@@ -10,7 +10,7 @@ $ sudo /etc/ansible/ec2.py --list
 $ sudo /etc/ansible/ec2.py --host ip-address-here
 
 ## Go to website
-$ ansible.demosiili.com
+http://ansible.demosiili.com
 
 ## SSH to machine
 
