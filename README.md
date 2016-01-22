@@ -12,6 +12,6 @@ $ sudo /etc/ansible/ec2.py --host ip-address-here
 ## Go to website
 http://ansible.demosiili.com
 
-## SSH to machine
+## SSH to instance
 
 $ ssh -i "AWSKeypair2.pem" ec2-user@public_host_name
