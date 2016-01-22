@@ -12,8 +12,6 @@ $ sudo /etc/ansible/ec2.py --host ip-address-here
 ## Go to website
 $ ansible.demosiili.com
 
-## Create meetingroom reservation
-
-SSH to machine
+## SSH to machine
 
 $ ssh -i "AWSKeypair2.pem" ec2-user@public_host_name
