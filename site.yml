@@ -20,7 +20,7 @@
   roles:
     - ec2
 
-- name: Configure EC2 instances
+- name: Configure EC2 instance
   hosts: webserver
   sudo: True
   user: ec2-user

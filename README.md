@@ -8,3 +8,12 @@ $ sudo /etc/ansible/ec2.py --list
 
 ## To see the complete list of variables available for an instance
 $ sudo /etc/ansible/ec2.py --host ip-address-here
+
+## Go to website
+$ ansible.demosiili.com
+
+## Create meetingroom reservation
+
+SSH to machine
+
+$ ssh -i "AWSKeypair2.pem" ec2-user@public_host_name
